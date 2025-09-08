@@ -1,0 +1,67 @@
+ @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+body {
+ margin: 0;
+ font-family: 'Poppins', sans-serif;
+ font-weight: 550;
+ 
+}
+
+
+#header {
+background: linear-gradient(to bottom, #79a3e6, #2b519c);
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); 
+padding: 15px 50px;
+display: flex;
+justify-content: space-between;
+align-items: center; 
+border-bottom: 1px solid #ddd;
+
+
+
+}
+
+.header-direita {
+display: flex;
+gap: 60px;
+
+}
+
+.header-direita a:hover {
+    color: #ffffff;
+    background-color: #d64545;
+    
+}
+
+.header-direita a {
+  font-size: 1em;
+  font-weight: 600;
+  padding: 10px 20px;
+  color: #1E3A8A;
+  background-color: #ffffff;
+  border: 3px solid #a32929;
+  border-radius: 25px;
+  text-decoration: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+
+.header-esquerda a {
+  position: relative;
+  bottom: 8px;
+  left: -30px;
+  font-size: 2em;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 700;
+  text-shadow:
+    2px 2px 6px rgba(0, 0, 0, 0.4),
+   -1px -1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.header-esquerda img {
+     position: relative;
+     bottom: -4px;
+     left: -10px;
+}
+
