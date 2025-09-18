@@ -1,35 +1,32 @@
- @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
 body {
- margin: 0;
- font-family: 'Poppins', sans-serif;
- font-weight: 550;
- 
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 550;
 }
 
 
+/* INICIO DO HEADER*/
+
 #header {
-background: linear-gradient(to bottom, #79a3e6, #2b519c);
-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); 
-padding: 15px 50px;
-display: flex;
-justify-content: space-between;
-align-items: center; 
-border-bottom: 1px solid #ddd;
-
-
-
+  background: linear-gradient(to bottom, #79a3e6, #2b519c);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); 
+  padding: 15px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; 
+  border-bottom: 1px solid #ddd;
 }
 
 .header-direita {
-display: flex;
-gap: 60px;
-
+  display: flex;
+  gap: 60px;
 }
 
 .header-direita a:hover {
-    color: #ffffff;
-    background-color: #d64545;
-    
+  color: #ffffff;
+  background-color: #d64545;
 }
 
 .header-direita a {
@@ -45,7 +42,6 @@ gap: 60px;
   transition: all 0.3s ease;
 }
 
-
 .header-esquerda a {
   position: relative;
   bottom: 8px;
@@ -60,8 +56,242 @@ gap: 60px;
 }
 
 .header-esquerda img {
-     position: relative;
-     bottom: -4px;
-     left: -10px;
+  position: relative;
+  bottom: -4px;
+  left: -10px;
 }
 
+/* FIM DO HEADER*/
+
+
+
+.fundo-azul {
+  background: linear-gradient(to bottom, #fff, #e2ecff, #6d9ce8);
+  padding: 110px 0;  
+  border-radius: 0 0 50px 50px;
+}
+
+.nome-principal h1 {
+  display: flex;
+  justify-content: center;
+  font-size: 2.9em;
+}
+
+
+/* INICIO DA BARRA DE PESQUISA*/
+
+.busca-principal {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px; 
+}
+
+.busca-principal input {
+  width: 400px;
+  max-width: 80%;
+  padding: 12px 20px;
+  font-size: 1em;
+  border: 2px solid #ccc;
+  border-radius: 30px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.botao-busca-principal {
+  background: #2b519c;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 30px;
+  padding: 12px 25px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+/* FIM DA BARRA DE PESQUISA*/
+
+
+
+/* INICIO DA BARRA DE ROLAGEM */
+.rolagem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 40px;
+}
+
+.botoes-rolagem {
+  background: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  margin: 0 10px;
+}
+
+.container-materias {
+  max-width: 45vw; 
+  overflow: hidden; 
+}
+
+.materias {
+  display: flex;
+  overflow-x: auto;
+  max-width: 90vw; 
+  scroll-behavior: smooth;
+  background: rgb(229, 227, 227);
+  padding: 10px 20px;
+  border-radius: 30px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  gap: 15px;
+}
+
+
+/* COMANDO PARA TIRAR A BARRA AUTOMATICA */
+.materias::-webkit-scrollbar {
+  display: none; 
+}
+
+.materia {
+  flex: 0 0 auto;   
+  display: flex;    
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;  
+  white-space: nowrap;
+  padding: 10px 20px;
+  background: #f0f0f0;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.materia:hover {
+  background: #dcdcdc;
+}
+
+.materia img {
+  width: 40px;
+  height: 30px;
+  margin-bottom: 5px;
+}
+
+/* FIM DA BARRA DE ROLAGEM */
+
+
+/* COMEÇO DOS PROFESSORES */
+
+.destaques {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 60px;
+  gap: 50px;
+}
+
+.destaques-semana {
+  font-size: 2em;
+  font-weight: 700;
+  margin-bottom: -40px;
+  margin-top: 60px;
+  text-align: center;
+}
+
+
+.destaques-icone {
+  width: 4%;
+  position: relative;
+  top: -70px;
+  left: 250px;
+}
+
+.todos-professores {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 80px;
+}
+
+
+/* CARTÕES DOS PROFESSORES */
+
+.modelo-prof {
+  width: 250px;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.foto-prof {
+  position: relative;
+  width: 100%;
+  height: 300px; 
+  overflow: hidden; 
+}
+
+.foto-prof img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
+  border-radius: 15px 15px 0 0;
+  display: block;
+}
+
+.nome-professor {
+  position: absolute;
+  padding: 10px;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6); 
+  color: #fff;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nome-professor h3 {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.nome-professor img {
+  width: 40%;
+}
+
+.descricao-prof {
+  padding-left: 10px;
+  font-size: 0.8em;
+}
+
+
+
+.descricao-prof h4 {
+  font-size: 1.2em;
+}
+
+
+
+.preco-bandeira {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.preco-bandeira img {
+  width: 18%;
+  height: auto;
+  padding-left: 10px;
+   
+}
