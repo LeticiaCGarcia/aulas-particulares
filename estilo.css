@@ -1,37 +1,34 @@
- @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
 body {
- margin: 0;
- font-family: 'Poppins', sans-serif;
- font-weight: 550;
- 
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 550;
 }
 
 
 /* INICIO DO HEADER*/
 
 #header {
-background: linear-gradient(to bottom, #79a3e6, #2b519c);
-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); 
-padding: 15px 50px;
-display: flex;
-justify-content: space-between;
-align-items: center; 
-border-bottom: 1px solid #ddd;
-
-
-
+  background: linear-gradient(to bottom, #5a7eb9, #12357a);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); 
+  padding: 15px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; 
+  border-bottom: 1px solid #ddd;
 }
 
 .header-direita {
-display: flex;
-gap: 60px;
-
+  display: flex;
+  gap: 60px;
 }
 
 .header-direita a:hover {
-    color: #ffffff;
-    background-color: #d64545;
-    
+  transform: scale(1.05);
+  background-color: #e2bd58;
+  color: white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
 .header-direita a {
@@ -40,13 +37,12 @@ gap: 60px;
   padding: 10px 20px;
   color: #1E3A8A;
   background-color: #ffffff;
-  border: 3px solid #a32929;
+  border: 3px solid #ebc867;
   border-radius: 25px;
   text-decoration: none;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
-
 
 .header-esquerda a {
   position: relative;
@@ -62,34 +58,44 @@ gap: 60px;
 }
 
 .header-esquerda img {
-     position: relative;
-     bottom: -4px;
-     left: -10px;
+  position: relative;
+  bottom: -4px;
+  left: -10px;
 }
 
 /* FIM DO HEADER*/
 
 
-
+/* FUNDO AZUL COM PARALLAX */
 .fundo-azul {
-  background: linear-gradient(to bottom, #fff, #e2ecff, #6d9ce8);
-  padding: 110px 0;  
+  background-image: url('imagens/back2.png');
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  height: 500px;
+  padding: 0;
   border-radius: 0 0 50px 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #000;
 }
 
- 
 .nome-principal h1 {
   display: flex;
- justify-content: center;
- font-size: 2.9em;
+  justify-content: center;
+  font-size: 2.9em;
+  margin-bottom: 25px; 
 }
-
 
 
 /* INICIO DA BARRA DE PESQUISA*/
 
 .busca-principal {
-  margin-top: 30px;
+  margin-top: 0; 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -102,27 +108,32 @@ gap: 60px;
   padding: 12px 20px;
   font-size: 1em;
   border: 2px solid #ccc;
-  border-radius: 30px;
+  border-radius: 20px;
   outline: none;
   transition: border-color 0.3s;
 }
 
-
 .botao-busca-principal {
-  background: #2b519c;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
   color: #fff;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.05em;
   border: none;
   border-radius: 30px;
   padding: 12px 25px;
   cursor: pointer;
   font-size: 1em;
-  transition: background 0.3s ease, transform 0.2s ease;
+  text-transform: uppercase;
+  box-shadow: 0 6px 15px rgba(41, 81, 156, 0.6);
+  transition: background 0.4s ease, transform 0.25s ease;
 }
 
+.botao-busca-principal:hover {
+  background: linear-gradient(135deg, #1f3c68, #243f72);
+  transform: scale(1.03);
+  box-shadow: 0 5px 5px rgba(29, 55, 95, 0.8);
+}
 /* FIM DA BARRA DE PESQUISA*/
-
-
 
 
 /* INICIO DA BARRA DE ROLAGEM */
@@ -145,8 +156,6 @@ gap: 60px;
   margin: 0 10px;
 }
 
-
-
 .container-materias {
   max-width: 45vw; 
   overflow: hidden; 
@@ -165,8 +174,6 @@ gap: 60px;
 }
 
 
-
-
 /* COMANDO PARA TIRAR A BARRA AUTOMATICA */
 .materias::-webkit-scrollbar {
   display: none; 
@@ -182,10 +189,13 @@ gap: 60px;
   white-space: nowrap;
   padding: 10px 20px;
   background: #f0f0f0;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   border-radius: 20px;
   font-weight: bold;
   cursor: pointer;
   transition: background 0.3s;
+  height: 80px;
+  
 }
 
 .materia:hover {
@@ -193,31 +203,212 @@ gap: 60px;
 }
 
 .materia img {
-  width: 40px;
-  height: 30px;
+  width: 35px;
+  height: 25px;
   margin-bottom: 5px;
 }
 
 /* FIM DA BARRA DE ROLAGEM */
 
 
+/* COMEÇO DOS PROFESSORES */
+
 .destaques {
   display: flex;
   flex-direction: column;
-  align-items: center;    
-  padding-top: 40px;
-  gap: 20px;            
+  align-items: center;
+  justify-content: center;
+  padding: 40px 60px;
+  gap: 50px;
+  position: relative;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 40px 20px;
 }
 
-.destaques h1 {
+.destaques-semana {
   font-size: 2em;
   font-weight: 700;
-  margin-bottom: 10px;
+  margin-bottom: -40px;
+  margin-top: 60px;
+  text-align: center;
 }
 
-.destaques img {
-  border-radius: 20px;
-  width: 250px;     
-  height: auto;     
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+
+.destaques-icone {
+  width: 3%;
+  position: relative;
+  top: -70px;
+  left: 230px;
 }
+
+.todos-professores {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 colunas */
+  gap: 60px;
+  justify-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+
+/* 1 PROFESSOR POR COLUNA PARA TELAS PEQUENAS */
+@media (max-width: 768px) {
+  .todos-professores {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+}
+
+/* CARTÕES DOS PROFESSORES */
+
+.modelo-prof {
+  width: 280px;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  position: relative;
+  transition: transform 0.3s, box-shadow 0.3s;
+  margin-bottom: 20px;
+}
+
+.modelo-prof:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.foto-prof {
+  position: relative;
+  width: 100%;
+  height: 300px; 
+  overflow: hidden; 
+}
+
+.foto-prof img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
+  border-radius: 15px 15px 0 0;
+  display: block;
+}
+
+.nome-professor {
+  position: absolute;
+  padding: 10px;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6); 
+  color: #fff;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nome-professor h3 {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.nome-professor img {
+  width: 40%;
+}
+
+.descricao-prof {
+  padding-left: 10px;
+  font-size: 0.8em;
+}
+
+
+
+.descricao-prof h4 {
+  font-size: 1.2em;
+}
+
+
+
+.preco-bandeira {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+
+
+.preco-bandeira img {
+  width: 18%;
+  height: auto;
+  padding-left: 10px;
+   
+}
+
+
+/* BORDA CINZA DO COMO FUNCIONA DEPOIS DOS PROFESSORES */
+
+.borda-cinza {
+  background-color: #f0f0f0;  
+  padding: 50px 40px 80px;
+  border-radius: 12px;
+  margin: 30px auto;
+  max-width: 1200px;
+  box-sizing: border-box;
+}
+
+.borda-cinza h1 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 50px;
+  font-size: 2.2rem;
+  color: #222;
+}
+
+.container-como-funciona {
+  display: flex;
+  justify-content: center;
+  gap: 70px; 
+  flex-wrap: nowrap; 
+  flex-shrink: 0;
+}
+
+.item-como-funciona {
+  width: 280px; 
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  padding: 0 10px;
+  
+}
+
+.item-como-funciona img {
+  width: 160px;
+  height: 160px;
+  object-fit: contain;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.item-como-funciona:hover img {
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.item-como-funciona h3 {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #333;
+  margin-bottom: 14px;
+}
+
+.item-como-funciona p {
+  font-weight: 500;
+  font-size: 1rem;
+  color: #444;
+  line-height: 1.4;
+  margin: 0 auto;
+}
+
+
+

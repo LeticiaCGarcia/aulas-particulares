@@ -1,88 +1,183 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" type="text/css" href="estilo.css">
-  
-
-
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EzClass</title>
+    <link rel="stylesheet" type="text/css" href="estilo.css" />
 </head>
 <body>
-    
+    <div id="header"> <!-- INICIO DO HEADER-->
+        <div class="header-esquerda">
+            <a href="index.html">EzClass</a>
+            <img src="imagens/livroslogo3.png" alt="Icone do canto" width="6%" />
+        </div>
 
-  <div id="header"> <!-- INICIO DO HEADER-->
+        <div class="header-direita">
+            <a href="cadastro.php">Conectar</a>
+            <a href="">Seja um professor</a>
+        </div>
+    </div> <!-- FIM DO HEADER -->
 
-  <div class="header-esquerda">
-  <a href="index.html">RichardsBR</a>
-  <img src="imagens/livroslogo3.png" alt="Icone do canto" width="6%">
-  </div>
+    <div id="principal">  <!-- INICIO DO PRINCIPAL -->
+        <section class="fundo-azul">
+            <div class="nome-principal">
+                <h1>Encontre seu professor ideal!</h1>
+            </div>
 
-  <div class="header-direita">
-  <a href="">Conectar</a>
-  <a href="">Seja um professor</a>
- </div>
+            <div class="busca-principal">
+                <input type="text" id="pesquisa-principal" placeholder='Busque "Inglês"' />
+                <button class="botao-busca-principal">Buscar</button>
+            </div>
 
-  </div> <!-- FIM DO HEADER -->
+            <!-- TROCA OS NOMES DA BARRA -->
+            <div class="rolagem">
+                <button class="botoes-rolagem" onclick="Rolagem(-200)">&#8249;</button>
 
+                <div class="container-materias">
+                    <div class="materias" id="materiasBarra">
+                        <div class="materia"><img src="imagens/icones-barra/inglaterra.png" alt="Inglaterra" />Inglês</div>
+                        <div class="materia"><img src="imagens/icones-barra/matematica.png" alt="Matematica" />Matemática</div>
+                        <div class="materia"><img src="imagens/icones-barra/programacao.png" alt="Programacao" />Programação</div>
+                        <div class="materia"><img src="imagens/icones-barra/franca.png" alt="Francês" />Francês</div>
+                        <div class="materia"><img src="imagens/icones-barra/espanha.png" alt="Espanha" />Espanhol</div>
+                        <div class="materia"><img src="imagens/icones-barra/russia.png" alt="Russia" />Russo</div>
+                        <div class="materia"><img src="imagens/icones-barra/japao.png" alt="Japao" />Japonês</div>
+                        <div class="materia"><img src="imagens/icones-barra/personal.png" alt="Personal" />Personal Trainer</div>
+                        <div class="materia">Violino</div>
+                        <div class="materia">Guitarra</div>
+                        <div class="materia">Teclado</div>
+                    </div>
+                </div>
 
-  <div id="principal">  <!-- INICIO DO PRINCIPAL -->
+                <button class="botoes-rolagem" onclick="Rolagem(200)">&#8250;</button>
+            </div>
+        </section>
+    </div>  <!-- FIM DO PRINCIPAL -->
 
+    <div id="professores">  <!-- COMEÇO DOS PROFESSORES -->
+        <div class="destaques">
+            <h1 class="destaques-semana">Destaques da semana!</h1>
+            <img class="destaques-icone" src="imagens/destaques2.png" alt="destaquess" />
 
-    <section class="fundo-azul">
-    <div class="nome-principal">
-       <h1>Encontre seu professor ideal!</h1>
-    </div>
-    
+            <div class="todos-professores">
+                <!-- Cartão 1 - Messi -->
+                <div class="modelo-prof">
+                    <div class="foto-prof">
+                        <img src="imagens/professores/mercia.jpeg" alt="Mercia" />
+                        <div class="nome-professor">
+                            <h3>Mércia</h3>
+                            <img src="imagens/estrelas.png" alt="estrelas" />
+                        </div>
+                    </div>
+                    <div class="descricao-prof">
+                        <h4>Professora de Espanhol</h4>
+                        <p>R$190/H</p>
+                    </div>
+                </div>
 
-    <div class="busca-principal">
-      <input type="text" id="pesquisa-principal" placeholder='Busque "Tênis'>
-      <button class="botao-busca-principal">Buscar</button>
-    </div>
-   
+                <!-- Cartão 2 - Putin -->
+                <div class="modelo-prof">
+                    <div class="foto-prof">
+                        <img src="imagens/professores/valeria2.jpeg" alt="Valeria" />
+                        <div class="nome-professor">
+                            <h3>Valéria</h3>
+                            <img src="imagens/estrelas.png" alt="estrelas" />
+                        </div>
+                    </div>
+                    <div class="descricao-prof">
+                        <h4>Professora de Russo</h4>
+                        <p>R$249/H</p>
+                    </div>
+                </div>
 
-    <!-- TROCA OS NOMES DA BARRA -->
+                <!-- Cartão 3 - Trump -->
+                <div class="modelo-prof">
+                    <div class="foto-prof">
+                        <img src="imagens/professores/donizete.jpeg" alt="Donizete" />
+                        <div class="nome-professor">
+                            <h3>Donizete</h3>
+                            <img src="imagens/estrelas.png" alt="estrelas" />
+                        </div>
+                    </div>
+                    <div class="descricao-prof">
+                        <h4>Professora de Inglês</h4>
+                        <p>R$210/H</p>
+                    </div>
+                </div>
 
+                <!-- Cartão 4 - Dilma -->
+                <div class="modelo-prof">
+                    <div class="foto-prof">
+                        <img src="imagens/professores/dilmo2.jpeg" alt="dilmo" />
+                        <div class="nome-professor">
+                            <h3>Dante</h3>
+                            <img src="imagens/estrelas.png" alt="estrelas" />
+                        </div>
+                    </div>
+                    <div class="descricao-prof">
+                        <h4>Professor de Python</h4>
+                        <p>R$100/H</p>
+                    </div>
+                </div>
 
-    <div class="rolagem">
-    <button class="botoes-rolagem" onclick="Rolagem(-200)">&#8249;</button>
-       
+                <!-- Cartão 5 - Jacquin -->
+                <div class="modelo-prof">
+                    <div class="foto-prof">
+                        <img src="imagens/professores/erica.jpeg" alt="jacquin" />
+                        <div class="nome-professor">
+                            <h3>Erica</h3>
+                            <img src="imagens/estrelas.png" alt="estrelas" />
+                        </div>
+                    </div>
+                    <div class="descricao-prof">
+                        <h4>Professora de Francês</h4>
+                        <p>R$180/H</p>
+                    </div>
+                </div>
 
-    <div class="container-materias">
-      <div class="materias" id="materiasBarra">
-        <div class="materia"><img src="imagens/icones-barra/inglaterra.png" alt="Inglaterra">Inglês</div>
-        <div class="materia"><img src="imagens/icones-barra/matematica.png" alt="Matematica">Matemática</div>
-        <div class="materia"><img src="imagens/icones-barra/programacao.png" alt="Programacao">Programação</div>
-        <div class="materia"><img src="imagens/icones-barra/franca.png">Francês</div>
-        <div class="materia"><img src="imagens/icones-barra/espanha.png" alt="Espanha">Espanhol</div>
-        <div class="materia"><img src="imagens/icones-barra/russia.png" alt="Russia">Russo</div>
-        <div class="materia"><img src="imagens/icones-barra/japao.png" alt="Japao">Japonês</div>
-        <div class="materia"><img src="imagens/icones-barra/personal.png" alt="Personal">Personal Trainer</div>
-        <div class="materia">Violino</div>
-        <div class="materia">Guitarra</div>
-        <div class="materia">Teclado</div>
-      </div>
-    </div>  
+                <!-- Cartão 6 - Cariani -->
+                <div class="modelo-prof">
+                    <div class="foto-prof">
+                        <img src="imagens/professores/cariani.jpeg" alt="cariani" />
+                        <div class="nome-professor">
+                            <h3>Cariani</h3>
+                            <img src="imagens/estrelas.png" alt="estrelas" />
+                        </div>
+                    </div>
+                    <div class="descricao-prof">
+                        <h4>Personal Trainer</h4>
+                        <p>R$300/H</p>
+                    </div>
+                </div>
+            </div> <!-- fim todos-professores -->
+        </div> <!-- fim destaques da semana -->
 
-     <button class="botoes-rolagem" onclick="Rolagem(200)">&#8250;</button>
-    </div>
+        <div class="borda-cinza">
+            <h1>Como Funciona?</h1>
 
-  </div>  <!-- FIM DO PRINCIPAL -->
-  </section>
+            <div class="container-como-funciona">
+                <div class="item-como-funciona">
+                    <img src="imagens/procure.png" alt="Procure e Contate" />
+                    <h3>Procure e Contate</h3>
+                    <p>Procure o professor ideal e entre em contato com o perfil escolhido de acordo com os seus critérios.</p>
+                </div>
 
+                <div class="item-como-funciona">
+                    <img src="imagens/agende.png" alt="Agende" />
+                    <h3>Agende</h3>
+                    <p>Em poucos cliques, faça sua solicitação, receba o contato do professor e combine o melhor horário.</p>
+                </div>
 
+                <div class="item-como-funciona">
+                    <img src="imagens/conquiste.png" alt="Aprenda e Conquiste" />
+                    <h3>Aprenda e Conquiste</h3>
+                    <p>Aprenda o que quiser de onde estiver. Conquiste os melhores resultados com professores de excelência!</p>
+                </div>
+            </div>
+        </div>
 
-  <div id="professores">
-     <div class="destaques">
-        <h1>Destaques da semana!</h1> 
-        <img src="imagens/professores/mercia.jpeg" alt="Mercia">
-        <h3>Mércia</h3>
-        <h4>Espanhol</h4>
-     </div>
-
-  </div>
-
-<script src="scripts.js"></script>
+        
+    <script src="scripts.js"></script>
 </body>
 </html>
