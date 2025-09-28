@@ -7,17 +7,36 @@
     <link rel="stylesheet" type="text/css" href="estilo.css" />
 </head>
 <body>
+<?php
+session_start();
+?>
+
+
+
     <div id="header"> <!-- INICIO DO HEADER-->
         <div class="header-esquerda">
-            <a href="index.html">EzClass</a>
+            <a href="index.php">EzClass</a>
             <img src="imagens/livroslogo3.png" alt="Icone do canto" width="6%" />
         </div>
 
         <div class="header-direita">
-            <a href="cadastro.php">Conectar</a>
-            <a href="">Seja um professor</a>
-        </div>
+<?php if (isset($_SESSION['nome'])): ?>
+  <img src="<?php echo htmlspecialchars($_SESSION['foto'] ?? 'uploads/default-user.png'); ?>" alt="Foto de perfil" class="foto-perfil" />
+  <span>Olá, <?php echo htmlspecialchars($_SESSION['nome']); ?></span> |
+  <a href="perfil.php">Perfil</a> |
+  <a href="logout.php">Sair</a>
+<?php else: ?>
+  <a href="login.php">Conectar</a>
+  <a href="cadastro.php">Sou aluno (Novo!)</a>
+  <a href="cadastroprofessor.php">Seja um professor</a>
+<?php endif; ?>
+</div>
+
+
     </div> <!-- FIM DO HEADER -->
+
+
+
 
     <div id="principal">  <!-- INICIO DO PRINCIPAL -->
         <section class="fundo-azul">
@@ -176,6 +195,69 @@
                 </div>
             </div>
         </div>
+
+
+           
+    <footer class="rodape">      <!-- INICIO DO RODAPÉ -->
+        <div class="voltar-topo">
+            <a href="#header">Voltar ao topo</a>
+        </div>
+
+        <div class="rodape-links">
+
+            <div class="coluna">
+                <h4>Matérias</h4>
+                <a href="">Línguas</a>
+                <a href="">Informática</a>
+                <a href="">Reforço escolar</a>
+                <a href="">Artes e Lazer</a>
+                 <a href="">Esportes e dança</a>
+                 <a href="">Música</a>
+            </div>
+
+            <div class="coluna">
+                <h4>Sobre Nós</h4>
+                <a href="#">Quem Somos</a>
+                <a href="#">Nossa Missão</a>
+                <a href="">Acessibildiade</a>
+            </div>
+
+            <div class="coluna">
+                <h4>Ajuda</h4>
+                <a href="#">Central de Atendimento</a>
+                <a href="#">Perguntas Frequentes</a>
+                <a href="#">Política de Privacidade</a>
+            </div>
+
+            <div class="coluna">
+                <h4>Serviços</h4>
+                <a href="#">Seja um Professor</a>
+                <a href="#">Cadastro de Alunos</a>
+                <a href="#">Planos e Preços</a>
+            </div>
+
+            <div class="coluna redes-sociais">
+                <h4>Conecte-se</h4>
+                <div class="icones-redes">
+                <a href="#">
+                 <img src="imagens/insta.png" alt="Instagram" width="9%">
+                </a>
+                <a href="#">
+                    <img src="imagens/linkedin.png" alt="LinkedIn" width="9%">
+                </a>
+                <a href="#">
+                    <img src="imagens/facebook.png" alt="Facebook" width="9%">
+                </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="rodape-final">
+            <p>&copy; 2025 EzClass - Todos os direitos reservados.</p>
+            
+        </div>
+    </footer>
+    <!-- FIM DO RODAPÉ -->
 
         
     <script src="scripts.js"></script>

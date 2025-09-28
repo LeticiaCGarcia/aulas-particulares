@@ -6,9 +6,7 @@ body {
   font-weight: 550;
 }
 
-
-/* INICIO DO HEADER*/
-
+/* INICIO DO HEADER */
 #header {
   background: linear-gradient(to bottom, #5a7eb9, #12357a);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); 
@@ -21,7 +19,46 @@ body {
 
 .header-direita {
   display: flex;
-  gap: 60px;
+  gap: 30px; 
+  align-items: center; 
+  font-size: 0.95em;
+  color: #1E3A8A;
+}
+
+.foto-perfil {
+  width: 36px; 
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 8px;
+  vertical-align: middle;
+  border: 2px solid #ebc867; 
+  box-shadow: 0 0 5px rgba(235, 200, 103, 0.8);
+  flex-shrink: 0; 
+}
+
+.header-direita span {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  color: #dce2ee;
+  margin-right: 8px;
+}
+
+.header-direita a {
+  font-size: 1em;
+  font-weight: 600;
+  padding: 7px 15px;
+  color: #1E3A8A;
+  background-color: #ffffff;
+  border: 3px solid #ebc867;
+  border-radius: 25px;
+  text-decoration: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  white-space: nowrap; 
 }
 
 .header-direita a:hover {
@@ -31,17 +68,24 @@ body {
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
-.header-direita a {
-  font-size: 1em;
-  font-weight: 600;
-  padding: 10px 20px;
-  color: #1E3A8A;
-  background-color: #ffffff;
-  border: 3px solid #ebc867;
-  border-radius: 25px;
-  text-decoration: none;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+/* Separador "|" entre os links e nome */
+.header-direita span::after,
+.header-direita a:not(:last-child)::after {
+
+  color: #999;
+  margin-left: 12px;
+  margin-right: 12px;
+  font-weight: 400;
+}
+
+/* Remove o pipe do último link */
+.header-direita a:last-child::after {
+  content: "";
+}
+
+/* Mantém a consistência do pipe após o nome */
+.header-direita span:last-child::after {
+  content: "";
 }
 
 .header-esquerda a {
@@ -63,8 +107,7 @@ body {
   left: -10px;
 }
 
-/* FIM DO HEADER*/
-
+/* restante do CSS mantido igual */
 
 /* FUNDO AZUL COM PARALLAX */
 .fundo-azul {
@@ -73,7 +116,6 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-
   height: 500px;
   padding: 0;
   border-radius: 0 0 50px 50px;
@@ -92,8 +134,7 @@ body {
 }
 
 
-/* INICIO DA BARRA DE PESQUISA*/
-
+/* INICIO DA BARRA DE PESQUISA */
 .busca-principal {
   margin-top: 0; 
   display: flex;
@@ -133,8 +174,7 @@ body {
   transform: scale(1.03);
   box-shadow: 0 5px 5px rgba(29, 55, 95, 0.8);
 }
-/* FIM DA BARRA DE PESQUISA*/
-
+/* FIM DA BARRA DE PESQUISA */
 
 /* INICIO DA BARRA DE ROLAGEM */
 .rolagem {
@@ -173,7 +213,6 @@ body {
   gap: 15px;
 }
 
-
 /* COMANDO PARA TIRAR A BARRA AUTOMATICA */
 .materias::-webkit-scrollbar {
   display: none; 
@@ -195,7 +234,6 @@ body {
   cursor: pointer;
   transition: background 0.3s;
   height: 80px;
-  
 }
 
 .materia:hover {
@@ -207,12 +245,9 @@ body {
   height: 25px;
   margin-bottom: 5px;
 }
-
 /* FIM DA BARRA DE ROLAGEM */
 
-
 /* COMEÇO DOS PROFESSORES */
-
 .destaques {
   display: flex;
   flex-direction: column;
@@ -224,6 +259,7 @@ body {
   max-width: 1300px;
   margin: 0 auto;
   padding: 40px 20px;
+  overflow: visible; /* garante que o tooltip possa “vazar” */
 }
 
 .destaques-semana {
@@ -234,7 +270,6 @@ body {
   text-align: center;
 }
 
-
 .destaques-icone {
   width: 3%;
   position: relative;
@@ -244,33 +279,45 @@ body {
 
 .todos-professores {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 colunas */
+  grid-template-columns: repeat(3, 280px);
   gap: 60px;
-  justify-items: center;
+  justify-content: center;
+  align-items: start;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
+  overflow: visible; /* permite que tooltip apareça */
+  position: relative;
+  z-index: 1;
 }
-
 
 /* 1 PROFESSOR POR COLUNA PARA TELAS PEQUENAS */
 @media (max-width: 768px) {
   .todos-professores {
     grid-template-columns: 1fr;
     gap: 30px;
+    padding: 0 20px;
+  }
+}
+
+/* opcional: 2 colunas em tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .todos-professores {
+    grid-template-columns: repeat(2, 280px);
+    gap: 40px;
   }
 }
 
 /* CARTÕES DOS PROFESSORES */
-
 .modelo-prof {
   width: 280px;
   border-radius: 15px;
-  overflow: hidden;
+  overflow: visible; 
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   position: relative;
   transition: transform 0.3s, box-shadow 0.3s;
   margin-bottom: 20px;
+  z-index: 10; 
 }
 
 .modelo-prof:hover {
@@ -321,32 +368,24 @@ body {
   font-size: 0.8em;
 }
 
-
-
 .descricao-prof h4 {
   font-size: 1.2em;
 }
 
 
 
-.preco-bandeira {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+@media (max-width: 768px) {
+  .tooltip-prof {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: 100%;
+    min-height: auto;
+    transform: translateY(10px);
+  }
 }
-
-
-
-.preco-bandeira img {
-  width: 18%;
-  height: auto;
-  padding-left: 10px;
-   
-}
-
 
 /* BORDA CINZA DO COMO FUNCIONA DEPOIS DOS PROFESSORES */
-
 .borda-cinza {
   background-color: #f0f0f0;  
   padding: 50px 40px 80px;
@@ -378,7 +417,6 @@ body {
   text-align: center;
   font-family: 'Poppins', sans-serif;
   padding: 0 10px;
-  
 }
 
 .item-como-funciona img {
@@ -412,3 +450,216 @@ body {
 
 
 
+  /* =====================================================================================================================
+                                                  CSS da página cadastro.php
+   ======================================================================================================================= */
+
+   .cadastro-alunos {
+    background-color: #eaf4ff;
+    background: linear-gradient(rgba(255,255,255,0.65), rgba(255,255,255,0.65)),
+              url('imagens/back03.png') center/cover no-repeat;
+    background-size: cover;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+
+.cadastro-box {
+    background-color: #ffffff;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+}
+
+.cadastro-box h2 {
+    text-align: center;
+    color: #12357a;
+    margin-bottom: 30px;
+    font-size: 1.8em;
+}
+
+.cadastro-box label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #333;
+}
+
+.cadastro-box input,
+.cadastro-box select {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 18px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 0.95em;
+    box-sizing: border-box;
+    transition: border 0.3s;
+}
+
+.cadastro-box input:focus,
+.cadastro-box select:focus {
+    border-color: #5a7eb9;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(90, 126, 185, 0.2);
+}
+
+.cadastro-box button {
+    width: 100%;
+    background: linear-gradient(to right, #1e3a8a, #2a5298);
+    color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s;
+}
+
+.cadastro-box button:hover {
+    background: linear-gradient(to right, #1d3573, #25447d);
+    transform: scale(1.02);
+}
+
+
+
+/* ======================================================================================================================================================
+                                               RODAPÉ
+=======================================================================================================================================================*/
+
+
+.rodape {
+  margin-top: 60px;
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+}
+
+.voltar-topo {
+  background-color: #12357a; /* azul escuro do header */
+  text-align: center;
+  padding: 15px 0;
+}
+
+.voltar-topo a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+.voltar-topo a:hover {
+  color: #e2bd58; 
+}
+
+.rodape-links {
+  display: flex;
+  justify-content: center;
+  gap: 80px;
+  flex-wrap: wrap;
+  background: linear-gradient(to bottom right, #44659f, #25447d);
+  padding: 40px 20px;
+}
+
+
+
+.coluna {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 180px;
+}
+
+.coluna h4 {
+  font-size: 1.1em;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #e2bd58;
+}
+
+.coluna a {
+  color: #ddd;
+  font-size: 0.95em;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.coluna a:hover {
+  color: #fff;
+}
+
+.coluna img {
+display: inline-block;
+}
+
+
+/* PEDAÇO DAS REDES SOCIAIS */
+.coluna.redes-sociais {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.coluna.redes-sociais .icones-redes {
+  display: flex;
+  gap: 12px;
+  margin-top: -4px;
+}
+
+.coluna.redes-sociais img {
+  width: 50px;
+  height: 50px;
+  transition: transform 0.3s ease;
+}
+
+.coluna.redes-sociais img:hover {
+  transform: scale(1.1);
+}
+/* FIM DO PEDAÇO DAS REDES SOCIAIS */
+
+
+.rodape-final {
+  background-color: #0d2450;
+  text-align: center;
+  padding: 15px;
+  font-size: 0.9em;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* RESPONSIVIDADE RODAPÉ */
+@media (max-width: 768px) {
+  .rodape-links {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+}
+
+
+
+/* ======================================================================================================================================================
+                                                      TELA DE CADASTRO DO PROFESSOR
+=======================================================================================================================================================*/
+
+.cadastro-box textarea {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 18px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95em;
+  box-sizing: border-box;
+  transition: border 0.3s;
+  resize: vertical;
+}
+
+.cadastro-box textarea:focus {
+  border-color: #5a7eb9;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(90, 126, 185, 0.2);
+}
