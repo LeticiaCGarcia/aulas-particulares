@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Login | EzClass</title>
-    <link rel="stylesheet" href="estilo.css"> <!-- Reaproveitando seu estilo -->
+    <link rel="stylesheet" href="estilo.css"> 
 </head>
 <body>
 
@@ -16,7 +16,7 @@
     </div>
 
     <!-- CONTAINER DE LOGIN -->
-    <div class="cadastro-alunos"> <!-- Reaproveitando mesma estrutura do cadastro -->
+    <div class="cadastro-alunos"> 
         <div class="cadastro-box">
             <h2>Login</h2>
             <form action="verifica_login.php" method="POST">

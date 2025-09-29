@@ -8,22 +8,19 @@ setInterval(() => {
   input.setAttribute("placeholder", palavras[index]);
 }, 2000); 
 
-// Função de rolagem para a barra de matérias
 function Rolagem(distancia) {
   const barra = document.getElementById("materiasBarra");
   barra.scrollLeft += distancia;
 }
 
-// Adicionando funcionalidade ao botão "Mais informações"
 document.querySelectorAll('.mais-info').forEach(button => {
   button.addEventListener('click', function(event) {
     event.preventDefault();
     alert('Abrindo mais informações!');
-    // Aqui você pode abrir uma modal ou redirecionar o usuário para outra página
+    // TEM Q COLOCAR A OUTRA PAGINA
   });
 });
 
-// Ajuste de posição da tooltip
 document.addEventListener("DOMContentLoaded", () => {
   const profs = document.querySelectorAll(".modelo-prof");
 
@@ -35,7 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const tooltipWidth = tooltip.offsetWidth;
       const screenWidth = window.innerWidth;
 
-      // se o card + tooltip ultrapassar a largura da tela → abre para a esquerda
       if (rect.right + tooltipWidth > screenWidth - 20) {
         tooltip.style.left = "auto";
         tooltip.style.right = "105%"; 
@@ -61,7 +57,7 @@ document.querySelector('form').addEventListener('submit', function(e) {
 });
 
 
-// VERIFICADOR DO LOGIN
+// VERIFICA DO LOGIN
 
 document.addEventListener('DOMContentLoaded', () => {
   const loginForm = document.getElementById('loginForm');
@@ -102,4 +98,40 @@ document.addEventListener('DOMContentLoaded', () => {
       event.preventDefault();
     }
   });
+});
+
+
+// PARA PESQUISAR OS PROFESSORES
+document.getElementById('pesquisa-principal').addEventListener('input', function() {
+    const query = this.value.toLowerCase();
+    const professores = document.querySelectorAll('#professores-container .modelo-prof');
+
+    professores.forEach(prof => {
+        const nome = prof.getAttribute('data-nome');
+        const materia = prof.getAttribute('data-materia');
+
+        if (nome.includes(query) || materia.includes(query)) {
+            prof.style.display = 'block';
+        } else {
+            prof.style.display = 'none';
+        }
+    });
+});
+
+// PARA FILTRAR OS PROFESSORES NA MATERIA
+const materias = document.querySelectorAll('.materia');
+const professores = document.querySelectorAll('#professores-container .modelo-prof');
+
+materias.forEach(materia => {
+    materia.addEventListener('click', function() {
+        const materiaId = this.getAttribute('data-id');
+
+        professores.forEach(prof => {
+            if (prof.getAttribute('data-materia-id') === materiaId) {
+                prof.style.display = 'block';
+            } else {
+                prof.style.display = 'none';
+            }
+        });
+    });
 });

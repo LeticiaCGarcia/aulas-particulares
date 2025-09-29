@@ -11,7 +11,7 @@ $tipo = $_SESSION['tipo_usuario'];
 $id_usuario = ($tipo === 'aluno') ? $_SESSION['id_aluno'] : $_SESSION['id_professor'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Processar atualização do perfil
+    // PARA ATUALIZAR O PERFIL
 
     $nome = $_POST['nome'] ?? '';
     $email = $_POST['email'] ?? '';
@@ -19,12 +19,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $telefone = $_POST['telefone'] ?? '';
     $genero = $_POST['genero'] ?? '';
 
-    // Validações básicas
     if (!$nome || !$email || !$data_nascimento) {
         die("Por favor, preencha os campos obrigatórios.");
     }
 
-    // Processar upload da nova foto (se enviada)
+    // PARA SALVAR A FOTO 
     $foto_nome = null;
     if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
         $arquivo_tmp = $_FILES['foto']['tmp_name'];
@@ -44,7 +43,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (move_uploaded_file($arquivo_tmp, $destino)) {
                 $foto_nome = $novo_nome;
 
-                // Remover foto antiga do servidor
+
+                // EXCLUI A FOTO ANTIGA DO BANCO QUANDO SOBE UMA NOVA
                 if ($tipo === 'aluno') {
                     $sqlFoto = "SELECT foto FROM aluno WHERE id_aluno = ?";
                 } else {
@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // Atualizar banco
+    // PARA ATUALIZAR OS DADOS
     if ($tipo === 'aluno') {
         if ($foto_nome) {
             $sqlUpdate = "UPDATE aluno SET nome=?, email=?, data_nascimento=?, telefone=?, genero=?, foto=? WHERE id_aluno=?";
@@ -101,7 +101,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->close();
         $conn->close();
 
-        // Redirecionar para a mesma página com sucesso
         header("Location: perfil.php?sucesso=1");
         exit();
     } else {
@@ -109,7 +108,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Se não for POST, exibir o formulário com dados atuais
 
 if ($tipo === 'aluno') {
     $sql = "SELECT nome, email, data_nascimento, telefone, genero, foto FROM aluno WHERE id_aluno = ?";
@@ -131,6 +129,8 @@ $stmt->close();
 
 ?>
 
+
+<!-- PRECISA ATUALIZAR ESSA PARTE -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>

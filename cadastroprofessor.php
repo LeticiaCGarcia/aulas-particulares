@@ -24,15 +24,13 @@ $result_materias = $conn->query($sql_materias);
 <section class="cadastro-alunos">
   <div class="cadastro-box">
     <h2>Cadastro de Professor</h2>
-    <form action="processa_professor.php" method="POST" enctype="multipart/form-data">
-
+    <form action="salvar_cadastro_professor.php" method="POST" enctype="multipart/form-data">
 
       <label for="nome">Nome completo</label>
       <input type="text" id="nome" name="nome" required>
 
       <label for="foto">Foto de perfil</label>
       <input type="file" id="foto" name="foto" accept="image/*">
-
 
       <label for="email">Email</label>
       <input type="email" id="email" name="email" required>
@@ -48,25 +46,28 @@ $result_materias = $conn->query($sql_materias);
         <option value="">Selecione...</option>
         <option value="M">Masculino</option>
         <option value="F">Feminino</option>
-        <option value="outro">Outro</option>
+        <option value="Outro">Outro</option>
       </select>
 
       <label for="materia">Matéria</label>
       <select id="materia" name="materia" required>
-      <option value="">Selecione a matéria</option>
-      <?php
-      if ($result_materias->num_rows > 0) {
-        while ($row = $result_materias->fetch_assoc()) {
-            echo '<option value="' . $row['id_materia'] . '">' . htmlspecialchars($row['nome']) . '</option>';
-         }
+        <option value="">Selecione a matéria</option>
+        <?php
+        if ($result_materias->num_rows > 0) {
+            while ($row = $result_materias->fetch_assoc()) {
+                echo '<option value="' . $row['id_materia'] . '">' . htmlspecialchars($row['nome']) . '</option>';
+            }
         } else {
-         echo '<option value="">Nenhuma matéria encontrada</option>';
+            echo '<option value="">Nenhuma matéria encontrada</option>';
         }
         ?>
-        </select>
+      </select>
 
       <label for="formacao">Formação Acadêmica</label>
       <textarea id="formacao" name="formacao" rows="4" placeholder="Descreva sua formação acadêmica" required></textarea>
+
+      <label for="valor_hora">Valor/Hora (R$)</label>
+      <input type="number" id="valor_hora" name="valor_hora" step="0.01" min="0" value="200" required>
 
       <label for="senha">Senha</label>
       <input type="password" id="senha" name="senha" required>
@@ -78,7 +79,6 @@ $result_materias = $conn->query($sql_materias);
     </form>
   </div>
 </section>
-
 
 </body>
 </html>
