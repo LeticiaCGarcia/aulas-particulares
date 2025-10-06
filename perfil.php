@@ -127,6 +127,27 @@ if ($result->num_rows !== 1) {
 $usuario = $result->fetch_assoc();
 $stmt->close();
 
+// BUSCA AULAS DO ALUNO
+$aulas = [];
+if ($tipo === 'aluno') {
+    $sqlAulas = "
+        SELECT a.id_aula, a.data_aula, a.horario, a.status, a.avaliada, 
+               p.id_professor, p.nome AS nome_professor
+        FROM aula a
+        JOIN professor p ON a.id_professor = p.id_professor
+        WHERE a.id_aluno = ?
+        ORDER BY a.data_aula DESC
+    ";
+    $stmtAulas = $conn->prepare($sqlAulas);
+    $stmtAulas->bind_param("i", $id_usuario);
+    $stmtAulas->execute();
+    $resAulas = $stmtAulas->get_result();
+    while ($row = $resAulas->fetch_assoc()) {
+        $aulas[] = $row;
+    }
+    $stmtAulas->close();
+}
+
 ?>
 
 
@@ -203,6 +224,39 @@ $stmt->close();
     </form>
   </div>
 </section>
+
+<!-- Formulário de avaliação das aulas -->
+<?php if ($tipo === 'aluno' && !empty($aulas)): ?>
+<section class="avaliacoes">
+    <h2>Minhas Aulas</h2>
+    <?php foreach ($aulas as $aula): ?>
+        <div class="aula">
+            <p>Professor: <?= htmlspecialchars($aula['nome_professor']) ?></p>
+            <p>Data: <?= $aula['data_aula'] ?> - Hora: <?= $aula['horario'] ?></p>
+
+            <?php if ($aula['status'] === 'concluída' && !$aula['avaliada']): ?>
+                <form method="post" action="salvar_avaliacao.php">
+                    <input type="hidden" name="id_aula" value="<?= $aula['id_aula'] ?>">
+                    <input type="hidden" name="id_professor" value="<?= $aula['id_professor'] ?>">
+                    <label>Nota (1-5)</label>
+                    <select name="nota" required>
+                        <option value="">--</option>
+                        <?php for($i=1;$i<=5;$i++): ?>
+                            <option value="<?= $i ?>"><?= $i ?></option>
+                        <?php endfor; ?>
+                    </select>
+                    <label>Comentário (opcional)</label>
+                    <textarea name="comentario"></textarea>
+                    <button type="submit">Enviar avaliação</button>
+                </form>
+            <?php elseif ($aula['avaliada']): ?>
+                <p>Você já avaliou esta aula.</p>
+            <?php endif; ?>
+        </div>
+    <?php endforeach; ?>
+</section>
+<?php endif; ?>
+
 
 </body>
 </html>

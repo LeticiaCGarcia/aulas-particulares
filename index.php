@@ -108,7 +108,7 @@ $result_professores = $conn->query($sql_professores);
                 </div>
 
                 <div class="overlay-professor">
-                    <button class="botao-contratar" onclick="contratarProfessor(<?php echo $prof['id_professor']; ?>)">Contratar</button>
+                    <a href="professor_detalhes.php?id=<?php echo $prof['id_professor']; ?>" class="botao-contratar">Contratar</a>
                 </div>
             </div>
             <div class="descricao-prof">

@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($stmt->execute()) {
         echo "Cadastro realizado com sucesso!";
-        // PRECISA ARRUMAR AQUI
+        // PRECISA ARRUMAR AQUI, COLOCAR A PÁGINA
         header("Location: login.php");
         exit();
     } else {
