@@ -43,9 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-
- // VERIFICA SE AS SENHAS ESTÃO IGUAIS 
-
+// VERIFICA SE AS SENHAS ESTÃO IGUAIS 
 document.querySelector('form').addEventListener('submit', function(e) {
     const senha = document.getElementById('senha').value;
     const confirmarSenha = document.getElementById('confirmar_senha').value;
@@ -56,9 +54,7 @@ document.querySelector('form').addEventListener('submit', function(e) {
     }
 });
 
-
 // VERIFICA DO LOGIN
-
 document.addEventListener('DOMContentLoaded', () => {
   const loginForm = document.getElementById('loginForm');
   if (!loginForm) return;
@@ -76,7 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
       email.setCustomValidity('Por favor, preencha seu email.');
       valido = false;
     } else {
-      
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email.value)) {
         email.setCustomValidity('Por favor, insira um email válido.');
@@ -100,7 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-
 // PARA PESQUISAR OS PROFESSORES
 document.getElementById('pesquisa-principal').addEventListener('input', function() {
     const query = this.value.toLowerCase();
@@ -118,20 +112,13 @@ document.getElementById('pesquisa-principal').addEventListener('input', function
     });
 });
 
-// PARA FILTRAR OS PROFESSORES NA MATERIA
-const materias = document.querySelectorAll('.materia');
-const professores = document.querySelectorAll('#professores-container .modelo-prof');
-
-materias.forEach(materia => {
-    materia.addEventListener('click', function() {
-        const materiaId = this.getAttribute('data-id');
-
-        professores.forEach(prof => {
-            if (prof.getAttribute('data-materia-id') === materiaId) {
-                prof.style.display = 'block';
-            } else {
-                prof.style.display = 'none';
-            }
+// PEGA OS PROFESSORES PELO ID NA ROLAGEM DA BARRA
+document.addEventListener('DOMContentLoaded', function() {
+    const materias = document.querySelectorAll('.materia');
+    materias.forEach(materia => {
+        materia.addEventListener('click', function() {
+            const idMateria = this.getAttribute('data-id');
+            window.location.href = "professores.php?id_materia=" + idMateria;
         });
     });
 });

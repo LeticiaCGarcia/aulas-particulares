@@ -708,3 +708,12 @@ display: inline-block;
   transform: scale(1.05);
   box-shadow: 0 6px 15px rgba(0,0,0,0.3);
 }
+
+
+/* BARRA DO PROFESSORES.PHP */
+.materia.ativo {
+    border: 2px solid #fff; 
+    background-color: #007bff; 
+    color: #fff;
+    border-radius: 5px;
+}

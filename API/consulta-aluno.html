@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Rotas para aluno</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif; 
+  font-weight: 550;
+  background-color: #383838;
+  padding: 30px;
+  color: #333;
+}
+
+h1, h2 {
+  text-align: center;
+  color: #5d89e1;
+  margin-bottom: 15px;
+}
+
+h2 {
+  margin-top: 25px;
+}
+
+input, select {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin: 5px 0;
+  font-size: 14px;
+  font-family: 'Poppins', sans-serif;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+  transition: 0.3s;
+  margin: 5px 0;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+button.get { background-color: #4c5caf; color: #fff; padding: 20px 100px; }
+button.post { background: linear-gradient(to right, #1e3a8a, #2a5298); color: #fff; }
+button.put { background-color: #3f8d41; color: #fff; }
+button.delete { background-color: #f44336; color: #fff; }
+
+#mensagem {
+  text-align: center;
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+#listaAlunos {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  justify-items: center;
+}
+
+.modelo-prof {
+  width: 280px;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  position: relative;
+  transition: transform 0.3s, box-shadow 0.3s;
+  background-color: #fff;
+}
+
+.modelo-prof:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.foto-prof {
+  position: relative;
+  width: 100%;
+  height: 150px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f0f0f0;
+  color: #555;
+  font-size: 0.85em;
+  border-radius: 15px 15px 0 0;
+}
+
+.nome-professor {
+  padding: 10px;
+  text-align: center;
+  background: #12357a;
+  color: #fff;
+}
+
+.nome-professor h3 {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.descricao-prof {
+  padding: 10px;
+  font-size: 0.85em;
+  color: #333;
+}
+
+.botoes {
+  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+.botoes button.edit { background: #1e3a8a; color: #fff; }
+.botoes button.delete { background-color: #f44336; color: #fff; }
+
+/* QUADRADOS BRANCOS */
+.forms-container {
+  display: flex;
+  justify-content: center;
+  gap: 70px;
+  flex-wrap: wrap; 
+}
+
+form, .edit-form, .delete-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  width: 280px; 
+}
+
+form button, .edit-form button, .delete-form button {
+  width: 100%;
+}
+
+input[type="number"] {
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .forms-container {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+</style>
+</head>
+<body>
+
+<h1>Configuração e exibição dos alunos</h1>
+
+<br><br><br>
+
+<div class="forms-container">
+  
+  <form id="formAluno">
+    <h2>Adicionar Aluno</h2>
+    <input type="text" id="nome" placeholder="Nome" required>
+    <input type="email" id="email" placeholder="Email">
+    <input type="text" id="telefone" placeholder="Telefone">
+    <input type="date" id="data_nascimento">
+    <select id="genero">
+      <option value="">Gênero</option>
+      <option value="Masculino">Masculino</option>
+      <option value="Feminino">Feminino</option>
+      <option value="Outro">Outro</option>
+    </select>
+    <input type="password" id="senha" placeholder="Senha">
+    <input type="text" id="foto" placeholder="URL da foto">
+    <button type="submit" class="post">Adicionar</button>
+  </form>
+
+
+  <div class="edit-form">
+    <h2>Editar Aluno</h2>
+    <input type="number" id="idPut" placeholder="ID do aluno">
+    <input type="text" id="nomePut" placeholder="Nome">
+    <input type="email" id="emailPut" placeholder="Email">
+    <input type="text" id="telefonePut" placeholder="Telefone">
+    <input type="date" id="data_nascimentoPut">
+    <select id="generoPut">
+      <option value="">Gênero</option>
+      <option value="Masculino">Masculino</option>
+      <option value="Feminino">Feminino</option>
+      <option value="Outro">Outro</option>
+    </select>
+    <input type="password" id="senhaPut" placeholder="Senha">
+    <input type="text" id="fotoPut" placeholder="URL da foto">
+    <button class="put" onclick="editarAluno()">Editar</button>
+  </div>
+
+  <div class="delete-form">
+    <h2>Deletar Aluno</h2>
+    <input type="number" id="idDelete" placeholder="ID do aluno">
+    <button class="delete" onclick="deletarAluno()">Deletar</button>
+  </div>
+</div>
+
+<div id="mensagem"></div>
+
+<br><br><br>
+<div style="text-align:center; margin-bottom:20px;">
+  <button class="get" id="btnListar">Todos</button>
+</div>
+<br>
+
+<div id="listaAlunos"></div>
+
+<script>
+const lista = document.getElementById('listaAlunos');
+const mensagem = document.getElementById('mensagem');
+
+function mostrarMensagem(texto, cor='#4CAF50'){ 
+  mensagem.style.color = cor; 
+  mensagem.textContent = texto; 
+  setTimeout(()=>{mensagem.textContent='';},3000); 
+}
+
+document.getElementById('btnListar').addEventListener('click',()=> {
+  fetch('aluno.php')
+    .then(res => res.json())
+    .then(data => {
+      lista.innerHTML='';
+      if(!data.length){
+        lista.innerHTML='<p style="text-align:center;color:#777;">Nenhum aluno cadastrado.</p>';
+        return;
+      }
+      data.forEach(aluno => {
+        const div = document.createElement('div');
+        div.className = 'modelo-prof';
+        div.innerHTML = `
+          <div class="foto-prof">Foto URL: ${aluno.foto || '---'}</div>
+          <div class="nome-professor"><h3>${aluno.nome}</h3></div>
+          <div class="descricao-prof">
+            <p><strong>ID:</strong> ${aluno.id_aluno}</p>
+            <p><strong>Email:</strong> ${aluno.email}</p>
+            <p><strong>Telefone:</strong> ${aluno.telefone}</p>
+            <p><strong>Data Nascimento:</strong> ${aluno.data_nascimento}</p>
+            <p><strong>Gênero:</strong> ${aluno.genero}</p>
+          </div>
+          <div class="botoes">
+            <button class="edit" onclick="editarAlunoPrompt(${aluno.id_aluno}, '${aluno.nome}', '${aluno.email}', '${aluno.telefone}', '${aluno.data_nascimento}', '${aluno.genero}', '${aluno.senha}', '${aluno.foto}')">Editar</button>
+            <button class="delete" onclick="deletarAluno(${aluno.id_aluno})">Deletar</button>
+          </div>
+        `;
+        lista.appendChild(div);
+      });
+    })
+    .catch(err => mostrarMensagem('Erro: '+err,'#f44336'));
+});
+
+document.getElementById('formAluno').addEventListener('submit',(e) => {
+  e.preventDefault();
+  const data = {
+    nome: document.getElementById('nome').value.trim(),
+    email: document.getElementById('email').value.trim(),
+    telefone: document.getElementById('telefone').value.trim(),
+    data_nascimento: document.getElementById('data_nascimento').value,
+    genero: document.getElementById('genero').value,
+    senha: document.getElementById('senha').value,
+    foto: document.getElementById('foto').value.trim()
+  };
+  fetch('aluno.php',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(data)
+  })
+  .then(res=>res.json())
+  .then(res=>{
+    if(res.error) mostrarMensagem(res.error,'#f44336');
+    else mostrarMensagem(res.message);
+    document.getElementById('formAluno').reset();
+    document.getElementById('btnListar').click();
+  })
+  .catch(err=>mostrarMensagem('Erro: '+err,'#f44336'));
+});
+
+function editarAluno(){
+  const data = {
+    id_aluno: parseInt(document.getElementById('idPut').value),
+    nome: document.getElementById('nomePut').value.trim(),
+    email: document.getElementById('emailPut').value.trim(),
+    telefone: document.getElementById('telefonePut').value.trim(),
+    data_nascimento: document.getElementById('data_nascimentoPut').value,
+    genero: document.getElementById('generoPut').value,
+    senha: document.getElementById('senhaPut').value,
+    foto: document.getElementById('fotoPut').value.trim()
+  };
+  if(!data.id_aluno) return mostrarMensagem('Digite ID para editar','#f44336');
+  fetch('aluno.php',{
+    method:'PUT',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(data)
+  })
+  .then(res=>res.json())
+  .then(res=>{
+    if(res.error) mostrarMensagem(res.error,'#f44336');
+    else mostrarMensagem(res.message);
+    document.getElementById('formAluno').reset();
+    document.getElementById('btnListar').click();
+  })
+  .catch(err=>mostrarMensagem('Erro: '+err,'#f44336'));
+}
+
+function editarAlunoPrompt(id,nome,email,telefone,data_nascimento,genero,senha,foto){
+  const novoNome=prompt('Nome',nome);
+  const novoEmail=prompt('Email',email);
+  const novoTelefone=prompt('Telefone',telefone);
+  const novaData=prompt('Data de nascimento',data_nascimento);
+  const novoGenero=prompt('Gênero',genero);
+  const novaSenha=prompt('Senha',senha);
+  const novaFoto=prompt('Foto URL',foto);
+
+  fetch('aluno.php',{
+    method:'PUT',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      id_aluno:id,
+      nome:novoNome,
+      email:novoEmail,
+      telefone:novoTelefone,
+      data_nascimento:novaData,
+      genero:novoGenero,
+      senha:novaSenha,
+      foto:novaFoto
+    })
+  })
+  .then(res=>res.json())
+  .then(res=>{
+    if(res.error) mostrarMensagem(res.error,'#f44336');
+    else mostrarMensagem(res.message);
+    document.getElementById('btnListar').click();
+  });
+}
+
+function deletarAluno(idParam=null){
+  const id=idParam||parseInt(document.getElementById('idDelete').value);
+  if(!id) return mostrarMensagem('Digite ID para deletar','#f44336');
+  fetch('aluno.php',{
+    method:'DELETE',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({id_aluno:id})
+  })
+  .then(res=>res.json())
+  .then(res=>{
+    if(res.error) mostrarMensagem(res.error,'#f44336');
+    else mostrarMensagem(res.message);
+    if(!idParam) document.getElementById('idDelete').value='';
+    document.getElementById('btnListar').click();
+  })
+  .catch(err=>mostrarMensagem('Erro: '+err,'#f44336'));
+}
+
+document.getElementById('btnListar').click();
+</script>
+</body>
+</html>

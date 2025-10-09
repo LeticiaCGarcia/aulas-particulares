@@ -57,32 +57,49 @@ $result_professores = $conn->query($sql_professores);
         </div>
 
         <!-- TROCA OS NOMES DA BARRA -->
-        <div class="rolagem">
-            <button class="botoes-rolagem" onclick="Rolagem(-200)">&#8249;</button>
+       <div class="rolagem">
+    <button class="botoes-rolagem" onclick="Rolagem(-200)">&#8249;</button>
 
-            <div class="container-materias">
-                <div class="materias" id="materiasBarra">
-                    <?php
-                    if ($result_materias->num_rows > 0):
-                        while ($mat = $result_materias->fetch_assoc()):
-                    ?>
-                        <div class="materia" data-id="<?php echo $mat['id_materia']; ?>">
-                            <?php if (!empty($mat['icone'])): ?>
-                                <img src="<?php echo htmlspecialchars($mat['icone']); ?>" alt="<?php echo htmlspecialchars($mat['nome']); ?>" />
-                            <?php endif; ?>
-                            <?php echo htmlspecialchars($mat['nome']); ?>
-                        </div>
-                    <?php
-                        endwhile;
-                    else:
-                        echo "<div class='materia'>Nenhuma matéria cadastrada</div>";
-                    endif;
-                    ?>
+    <div class="container-materias">
+        <div class="materias" id="materiasBarra">
+            <?php
+            if ($result_materias->num_rows > 0):
+                while ($mat = $result_materias->fetch_assoc()):
+                    // Verifica se a matéria está selecionada para destacar
+                    $ativo = (isset($_GET['id_materia']) && $_GET['id_materia'] == $mat['id_materia']) ? ' style="border:2px solid #fff;"' : '';
+            ?>
+                <div class="materia" data-id="<?php echo $mat['id_materia']; ?>" <?php echo $ativo; ?>>
+                    <?php if (!empty($mat['icone'])): ?>
+                        <img src="<?php echo htmlspecialchars($mat['icone']); ?>" alt="<?php echo htmlspecialchars($mat['nome']); ?>" />
+                    <?php endif; ?>
+                    <?php echo htmlspecialchars($mat['nome']); ?>
                 </div>
-            </div>
-
-            <button class="botoes-rolagem" onclick="Rolagem(200)">&#8250;</button>
+            <?php
+                endwhile;
+            else:
+                echo "<div class='materia'>Nenhuma matéria cadastrada</div>";
+            endif;
+            ?>
         </div>
+    </div>
+
+    <button class="botoes-rolagem" onclick="Rolagem(200)">&#8250;</button>
+</div>
+
+        <!-- LEVA PARA A PÁGINA PROFESSORES, SÓ FUNCIONOU NESSE ARQUIVO N SEI PQ -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const materias = document.querySelectorAll('.materia');
+    materias.forEach(materia => {
+        materia.addEventListener('click', function() {
+            const idMateria = this.getAttribute('data-id');
+            window.location.href = "professores.php?id_materia=" + idMateria;
+        });
+    });
+});
+</script>
+
+
     </section>
 </div>  <!-- FIM DO PRINCIPAL -->
 

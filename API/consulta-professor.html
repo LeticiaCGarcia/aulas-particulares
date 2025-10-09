@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Rotas para professor</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 550;
+  background-color: #383838;
+  padding: 30px;
+  color: #333;
+}
+
+h1, h2 {
+  text-align: center;
+  color: #5d89e1;
+  margin-bottom: 15px;
+}
+h2 {
+  margin-top: 25px;
+}
+
+input, select {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin: 5px;
+  font-size: 14px;
+  font-family: 'Poppins', sans-serif;
+}
+
+button {
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+  transition: 0.3s;
+  margin: 5px;
+}
+
+button:hover { opacity: 0.9; }
+
+button.get { background-color: #4c5caf; color: #fff; }
+button.post { background: linear-gradient(to right, #1e3a8a, #2a5298); color: #fff; }
+button.put { background-color: #3f8d41; color: #fff; }
+button.delete { background-color: #f44336; color: #fff; }
+
+#mensagem {
+  text-align: center;
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+#listaProfessores {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  justify-items: center;
+}
+
+.modelo-prof {
+  width: 260px;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  position: relative;
+  transition: transform 0.3s, box-shadow 0.3s;
+  background-color: #fff;
+}
+
+.modelo-prof:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.foto-prof {
+  position: relative;
+  width: 100%;
+  height: 150px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f0f0f0;
+  color: #555;
+  font-size: 0.85em;
+  border-radius: 15px 15px 0 0;
+}
+
+.nome-professor {
+  padding: 10px;
+  text-align: center;
+  background: #12357a;
+  color: #fff;
+}
+
+.nome-professor h3 { margin: 0; font-size: 1.2em; }
+
+.descricao-prof {
+  padding: 10px;
+  font-size: 0.85em;
+  color: #333;
+}
+
+.botoes {
+  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+.botoes button.edit { background: #1e3a8a; color: #fff; }
+.botoes button.delete { background-color: #f44336; color: #fff; }
+
+.form-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.form-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  min-width: 250px;
+}
+
+input[type="number"] { width: 100%; }
+
+#btnListar {
+  padding: 14px 25px;
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  #listaProfessores { grid-template-columns: 1fr; }
+  .form-container { flex-direction: column; align-items: center; }
+}
+</style>
+</head>
+<body>
+
+<h1>Gestão de Professores</h1>
+
+<div class="form-container">
+  <!-- Adicionar Professor -->
+  <form id="formProfessor">
+    <h2>Adicionar</h2>
+    <input type="text" id="nome" placeholder="Nome" required>
+    <input type="email" id="email" placeholder="Email">
+    <input type="text" id="telefone" placeholder="Telefone">
+    <input type="date" id="data_nascimento">
+    <input type="text" id="especialidade" placeholder="Número da matéria">
+    <input type="text" id="formacao" placeholder="Formação">
+    <input type="number" id="valor_hora" placeholder="Valor hora">
+    <input type="text" id="foto" placeholder="URL da foto">
+    <button type="submit" class="post">Adicionar</button>
+  </form>
+
+  <!-- Editar Professor -->
+  <form id="formEditarProfessor">
+    <h2>Editar</h2>
+    <input type="number" id="idPut" placeholder="ID do professor">
+    <input type="text" id="nomePut" placeholder="Nome">
+    <input type="email" id="emailPut" placeholder="Email">
+    <input type="text" id="telefonePut" placeholder="Telefone">
+    <input type="date" id="data_nascimentoPut">
+    <input type="text" id="especialidadePut" placeholder="Número da matéria">
+    <input type="text" id="formacaoPut" placeholder="Formação">
+    <input type="number" id="valor_horaPut" placeholder="Valor hora">
+    <input type="text" id="fotoPut" placeholder="URL da foto">
+    <button type="button" class="put" onclick="editarProfessor()">Editar</button>
+  </form>
+
+  <!-- Deletar Professor -->
+  <form id="formDeleteProfessor">
+    <h2>Deletar</h2>
+    <input type="number" id="idDelete" placeholder="ID do professor">
+    <button type="button" class="delete" onclick="deletarProfessor()">Deletar</button>
+  </form>
+</div>
+
+<div style="text-align:center; margin-bottom:20px;">
+  <button class="get" id="btnListar">Todos</button>
+</div>
+
+<div id="mensagem"></div>
+<div id="listaProfessores"></div>
+
+<script>
+const lista = document.getElementById('listaProfessores');
+const mensagem = document.getElementById('mensagem');
+
+function mostrarMensagem(texto, cor='#4CAF50'){ 
+  mensagem.style.color = cor; 
+  mensagem.textContent = texto; 
+  setTimeout(()=>{mensagem.textContent='';},3000); 
+}
+
+// ================= GET =================
+document.getElementById('btnListar').addEventListener('click',()=> {
+  fetch('professor.php')
+    .then(res => res.json())
+    .then(data => {
+      lista.innerHTML='';
+      if(!data.length){
+        lista.innerHTML='<p style="text-align:center;color:#777;">Nenhum professor cadastrado.</p>';
+        return;
+      }
+      data.forEach(prof => {
+        const div = document.createElement('div');
+        div.className = 'modelo-prof';
+        div.innerHTML = `
+          <div class="foto-prof">Foto URL: ${prof.foto || '---'}</div>
+          <div class="nome-professor"><h3>${prof.nome}</h3></div>
+          <div class="descricao-prof">
+            <p><strong>ID:</strong> ${prof.id_professor}</p>
+            <p><strong>Email:</strong> ${prof.email}</p>
+            <p><strong>Telefone:</strong> ${prof.telefone}</p>
+            <p><strong>Data Nascimento:</strong> ${prof.data_nascimento}</p>
+            <p><strong>Especialidade:</strong> ${prof.especialidade}</p>
+            <p><strong>Formação:</strong> ${prof.formacao}</p>
+            <p><strong>Valor Hora:</strong> ${prof.valor_hora}</p>
+          </div>
+          <div class="botoes">
+            <button class="edit" onclick="editarProfessorPrompt(${prof.id_professor}, '${prof.nome}', '${prof.email}', '${prof.telefone}', '${prof.data_nascimento}', '${prof.especialidade}', '${prof.formacao}', ${prof.valor_hora}, '${prof.foto}')">Editar</button>
+            <button class="delete" onclick="deletarProfessor(${prof.id_professor})">Deletar</button>
+          </div>
+        `;
+        lista.appendChild(div);
+      });
+    })
+    .catch(err => mostrarMensagem('Erro: '+err,'#f44336'));
+});
+
+// ================= POST =================
+document.getElementById('formProfessor').addEventListener('submit',(e) => {
+  e.preventDefault();
+  const data = {
+    nome: document.getElementById('nome').value.trim(),
+    email: document.getElementById('email').value.trim(),
+    telefone: document.getElementById('telefone').value.trim(),
+    data_nascimento: document.getElementById('data_nascimento').value,
+    especialidade: document.getElementById('especialidade').value.trim(),
+    formacao: document.getElementById('formacao').value.trim(),
+    valor_hora: parseFloat(document.getElementById('valor_hora').value),
+    foto: document.getElementById('foto').value.trim()
+  };
+  fetch('professor.php',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(data)
+  })
+  .then(res=>res.json())
+  .then(res=>{
+    if(res.error) mostrarMensagem(res.error,'#f44336');
+    else mostrarMensagem(res.message);
+    document.getElementById('formProfessor').reset();
+    document.getElementById('btnListar').click();
+  })
+  .catch(err=>mostrarMensagem('Erro: '+err,'#f44336'));
+});
+
+// ================= PUT =================
+function editarProfessor(){
+  const data = {
+    id_professor: parseInt(document.getElementById('idPut').value),
+    nome: document.getElementById('nomePut').value.trim(),
+    email: document.getElementById('emailPut').value.trim(),
+    telefone: document.getElementById('telefonePut').value.trim(),
+    data_nascimento: document.getElementById('data_nascimentoPut').value,
+    especialidade: document.getElementById('especialidadePut').value.trim(),
+    formacao: document.getElementById('formacaoPut').value.trim(),
+    valor_hora: parseFloat(document.getElementById('valor_horaPut').value),
+    foto: document.getElementById('fotoPut').value.trim()
+  };
+  if(!data.id_professor) return mostrarMensagem('Digite ID para editar','#f44336');
+  fetch('professor.php',{
+    method:'PUT',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(data)
+  })
+  .then(res=>res.json())
+  .then(res=>{
+    if(res.error) mostrarMensagem(res.error,'#f44336');
+    else mostrarMensagem(res.message);
+    document.getElementById('formProfessor').reset();
+    document.getElementById('btnListar').click();
+  })
+  .catch(err=>mostrarMensagem('Erro: '+err,'#f44336'));
+}
+
+function editarProfessorPrompt(id,nome,email,telefone,data_nascimento,especialidade,formacao,valor_hora,foto){
+  const novoNome=prompt('Nome',nome);
+  const novoEmail=prompt('Email',email);
+  const novoTelefone=prompt('Telefone',telefone);
+  const novaData=prompt('Data de nascimento',data_nascimento);
+  const novaEspecialidade=prompt('Especialidade',especialidade);
+  const novaFormacao=prompt('Formação',formacao);
+  const novoValorHora=prompt('Valor hora',valor_hora);
+  const novaFoto=prompt('Foto URL',foto);
+
+  fetch('professor.php',{
+    method:'PUT',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      id_professor:id,
+      nome:novoNome,
+      email:novoEmail,
+      telefone:novoTelefone,
+      data_nascimento:novaData,
+      especialidade:novaEspecialidade,
+      formacao:novaFormacao,
+      valor_hora:parseFloat(novoValorHora),
+      foto:novaFoto
+    })
+  })
+  .then(res=>res.json())
+  .then(res=>{
+    if(res.error) mostrarMensagem(res.error,'#f44336');
+    else mostrarMensagem(res.message);
+    document.getElementById('btnListar').click();
+  });
+}
+
+// ================= DELETE =================
+function deletarProfessor(idParam=null){
+  const id=idParam||parseInt(document.getElementById('idDelete').value);
+  if(!id) return mostrarMensagem('Digite ID para deletar','#f44336');
+  fetch('professor.php',{
+    method:'DELETE',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({id_professor:id})
+  })
+  .then(res=>res.json())
+  .then(res=>{
+    if(res.error) mostrarMensagem(res.error,'#f44336');
+    else mostrarMensagem(res.message);
+    if(!idParam) document.getElementById('idDelete').value='';
+    document.getElementById('btnListar').click();
+  })
+  .catch(err=>mostrarMensagem('Erro: '+err,'#f44336'));
+}
+
+// Atualiza lista ao abrir
+document.getElementById('btnListar').click();
+</script>
+</body>
+</html>
