@@ -9,3 +9,5 @@ Leticia Garcia - RA: 03.22.104073-3
 Isabella de Oliveira Castro - RA: 03.22.105224-3
 
 Ana Clara Batista Sacramento - RA: 03.22.102745-1
+
+Richard Jesus = RA: 03.22.104639-1
