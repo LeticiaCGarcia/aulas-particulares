@@ -31,18 +31,27 @@ $result_professores = $conn->query($sql_professores);
         <img src="imagens/livroslogo3.png" alt="Icone do canto" width="6%" />
     </div>
 
+    
+
     <div class="header-direita">
         <?php if (isset($_SESSION['nome'])): ?>
             <img src="<?php echo htmlspecialchars($_SESSION['foto'] ?? 'uploads/default-user.png'); ?>" alt="Foto de perfil" class="foto-perfil" />
             <span>Olá, <?php echo htmlspecialchars($_SESSION['nome']); ?></span> |
             <a href="perfil.php">Perfil</a> |
-            <a href="logout.php">Sair</a>
+            <a href="logout.php">Sair</a> |
         <?php else: ?>
             <a href="login.php">Conectar</a>
             <a href="cadastro.php">Sou aluno (Novo!)</a>
             <a href="cadastroprofessor.php">Seja um professor</a>
         <?php endif; ?>
+
+        <div id="tema-react"></div>
+        <script type="module" src="react/dist/assets/index-CaPnliW6.js"></script>
     </div>
+    
+<script type="module" src="react/dist/assets/index-CaPnliW6.js"></script>
+
+
 </div> <!-- FIM DO HEADER -->
 
 <div id="principal">  <!-- INICIO DO PRINCIPAL -->
@@ -51,9 +60,13 @@ $result_professores = $conn->query($sql_professores);
             <h1>Encontre seu professor ideal!</h1>
         </div>
 
+
         <div class="busca-principal">
-            <input type="text" id="pesquisa-principal" placeholder='Busque "Inglês"' />
-            <button class="botao-busca-principal">Buscar</button>
+           <div class="campo-busca">
+            <input type="text" id="pesquisa-principal" placeholder='Busque "Inglês"' autocomplete="off">
+            <ul id="sugestoes"></ul>
+            </div>
+         <button class="botao-busca-principal" id="botao-buscar">Buscar</button>
         </div>
 
         <!-- TROCA OS NOMES DA BARRA -->

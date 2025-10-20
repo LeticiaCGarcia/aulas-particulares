@@ -2,14 +2,10 @@
 session_start();
 include_once 'conexao.php';
 
-// BUSCA DAS MATÉRIAS PARA A BARRA
 $sql_materias = "SELECT * FROM materia";
 $result_materias = $conn->query($sql_materias);
 
-// PEGA O ID DA MATÉRIA SELECIONADA
 $id_materia = $_GET['id_materia'] ?? '';
-
-// BUSCA PROFESSORES
 $sql_professores = "
     SELECT p.id_professor, p.nome, p.foto, p.valor_hora, m.nome AS materia
     FROM professor p
@@ -26,15 +22,17 @@ $result_professores = $conn->query($sql_professores);
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Professores - EzClass</title>
-    <link rel="stylesheet" href="estilo.css" />
+    <link rel="stylesheet" href="estilo.css?v=<?php echo time(); ?>" /> 
 </head>
 <body>
 
-<div id="header">
+
+<div id="header"> <!-- COMEÇO DO HEADER-->
     <div class="header-esquerda">
         <a href="index.php">EzClass</a>
         <img src="imagens/livroslogo3.png" alt="Icone" width="6%" />
     </div>
+
     <div class="header-direita">
         <?php if(isset($_SESSION['nome'])): ?>
             <img src="<?php echo htmlspecialchars($_SESSION['foto'] ?? 'uploads/default-user.png'); ?>" class="foto-perfil" />
@@ -46,11 +44,13 @@ $result_professores = $conn->query($sql_professores);
             <a href="cadastro.php">Sou aluno</a>
             <a href="cadastroprofessor.php">Seja um professor</a>
         <?php endif; ?>
+
+        <div id="tema-react"></div>
+        <script type="module" src="react/dist/assets/index-CaPnliW6.js"></script>
     </div>
-</div>
+</div> <!-- FIM DO HEADER-->
 
-
-<div class="rolagem">
+<div class="rolagem">  <!-- COMEÇO DA ROLAGEM-->
     <button class="botoes-rolagem" onclick="Rolagem(-200)">&#8249;</button>
     <div class="container-materias">
         <div class="materias" id="materiasBarra">
@@ -72,10 +72,9 @@ $result_professores = $conn->query($sql_professores);
         </div>
     </div>
     <button class="botoes-rolagem" onclick="Rolagem(200)">&#8250;</button>
-</div>
+</div> <!-- FIM DA ROLAGEM-->
 
-<!-- PROFESSORES -->
-<div id="professores">
+<div id="professores"> <!-- COMEÇO DOS PROFESSORES-->
     <div class="destaques">
         <h1>Professores desta matéria</h1>
         <div class="todos-professores" id="professores-container">
@@ -91,7 +90,7 @@ $result_professores = $conn->query($sql_professores);
                         <img src="imagens/estrelas.png" alt="estrelas" />
                     </div>
                     <div class="overlay-professor">
-                        <a href="perfil.php?id=<?php echo $prof['id_professor']; ?>" class="botao-contratar">Ver perfil</a>
+                        <a href="contratar.php?id=<?php echo $prof['id_professor']; ?>" class="botao-contratar">Contratar</a>
                     </div>
                 </div>
                 <div class="descricao-prof">
@@ -107,12 +106,13 @@ $result_professores = $conn->query($sql_professores);
             ?>
         </div>
     </div>
-</div>
+</div> <!-- FIM DOS PROFESSORES-->
 
-<!-- FOOTER -->
+
 <footer class="rodape">
     <div class="voltar-topo"><a href="#header">Voltar ao topo</a></div>
 </footer>
+
 
 <script src="scripts.js"></script>
 <script>
@@ -126,5 +126,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+
 </body>
 </html>

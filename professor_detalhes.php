@@ -1,207 +1,311 @@
 <?php
-
 session_start();
+include_once 'conexao.php';
 
 if (!isset($_GET['id']) || empty($_GET['id'])) {
-    
     header("Location: lista_professores.php");
     exit;
 }
 
 $id_professor = (int) $_GET['id'];
 
-include 'conexao.php';
-
-$sql = "SELECT id_professor, nome, email, data_nascimento, telefone, genero, especialidade, formacao, valor_hora, foto
-        FROM professor
-        WHERE id_professor = ?";
-$stmt = mysqli_prepare($conn, $sql);
-mysqli_stmt_bind_param($stmt, "i", $id_professor);
-mysqli_stmt_execute($stmt);
-$res = mysqli_stmt_get_result($stmt);
-$prof = mysqli_fetch_assoc($res);
+$sql = "SELECT p.*, m.nome AS materia_nome 
+        FROM professor p 
+        LEFT JOIN materia m ON p.especialidade = m.id_materia 
+        WHERE p.id_professor = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $id_professor);
+$stmt->execute();
+$result = $stmt->get_result();
+$prof = $result->fetch_assoc();
 
 if (!$prof) {
     echo "<p>Professor não encontrado.</p>";
     exit;
 }
 
-// BUSCA AS AVALIAÇÕES E A MÉDIA
-$sql2 = "SELECT COUNT(*) AS qtd, AVG(nota) AS media FROM avaliacao WHERE id_professor = ?";
-$stmt2 = mysqli_prepare($conn, $sql2);
-mysqli_stmt_bind_param($stmt2, "i", $id_professor);
-mysqli_stmt_execute($stmt2);
-$res2 = mysqli_stmt_get_result($stmt2);
-$av = mysqli_fetch_assoc($res2);
-$qtd_av = (int)($av['qtd'] ?? 0);
-$media_av = $av['media'] !== null ? round($av['media'], 1) : null;
-
 function formato_moeda($v) {
     return number_format((float)$v, 2, ',', '.');
 }
 
-// FOTO
-$foto_path = $prof['foto'] ? htmlspecialchars($prof['foto']) : 'assets/default_user.png';
+
+$foto_path = $prof['foto'] ? htmlspecialchars($prof['foto']) : 'uploads/default-user.png';
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Detalhes do Professor - <?= htmlspecialchars($prof['nome']) ?></title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><?= htmlspecialchars($prof['nome']) ?> - EzClass</title>
+
+<link rel="stylesheet" href="estilo.css">
+
+<style>
+:root{
+  --azul-1: #5a7eb9;
+  --azul-2: #12357a;
+  --dourado: #ebc867;
+}
+
+.page-bg {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f5f8ff 0%, #eef3ff 40%, #f7f9ff 100%);
+  padding-bottom: 60px;
+  padding-top: 30px;
+}
+body.modo-escuro .page-bg{
+  background: linear-gradient(180deg, #272727ff 0%, #0e0e0eff 40%, #0e0e0eff 100%);
+}
 
 
-  <style>
-    .prof-card { 
-    max-width:900px;
-    margin:30px auto;
-    display:flex; gap:24px; align-items:flex-start; padding:20px; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,0.06); background:#fff; }
+body.modo-escuro #header {
+  background: linear-gradient(to bottom, #202020, #0d0d0d);
+  border-bottom: 8px solid #222;
+}
 
-    .prof-foto { width:220px; height:220px; border-radius:10px; overflow:hidden; flex:0 0 220px; background:#f3f3f3; display:flex; align-items:center; justify-content:center; }
+.voltar-area{
+  max-width: 1100px;
+  margin: 22px auto 0;
+  padding: 0 16px;
+}
+.voltar-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(to right, #1e3a8a, #2a5298);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  padding: 11px 20px;
+  border-radius: 28px;
+  box-shadow: 0 6px 14px rgba(18,53,122,.22);
+  transition: all 0.3s ease;
+}
+.voltar-btn:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(18,53,122,.28);
+}
+body.modo-escuro .voltar-btn{
+  background: linear-gradient(135deg, #49a642, #58be6e);
+  color: #0d0d0d;
+}
 
-    .prof-foto img { width:100%; height:100%; object-fit:cover; display:block; }
 
-    .prof-info { flex:1; }
+.container-prof {
+  max-width: 1100px;
+  margin: 26px auto 0;
+  padding: 0 16px;
+}
+.card-glass{
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 28px;
+  padding: 28px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.65);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.6);
+  box-shadow: 0 18px 40px rgba(0,0,0,.08);
+}
+@media (max-width: 880px){
+  .card-glass{ grid-template-columns: 1fr; }
+}
+body.modo-escuro .card-glass{
+  background: rgba(18,18,18,0.7);
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 18px 44px rgba(0,0,0,.36);
+}
 
-    .prof-nome { font-size:1.6rem; margin:0 0 6px 0; }
+.foto-prof-detalhes img{
+  width: 280px; height: 280px;
+  border-radius: 16px;
+  object-fit: cover;
+  box-shadow: 0 10px 28px rgba(0,0,0,.2);
+  transition: all .25s ease;
+}
+body.modo-escuro .foto-prof-detalhes img{
+  border: 2px solid rgba(88,190,110,0.25);
+}
 
-    .prof-meta { color:#666; margin-bottom:10px; }
-    
-    .valor { font-weight:700; font-size:1.2rem; margin-top:6px; }
-    .btn-contratar { background:linear-gradient(90deg,#1f8ef1,#2cc6ff); color:#fff; border:none; padding:12px 18px; border-radius:10px; cursor:pointer; font-weight:600; }
-    .btn-voltar { background:transparent; color:#333; border:1px solid #ddd; padding:8px 12px; border-radius:8px; cursor:pointer; margin-right:10px; }
-    .descricao { white-space:pre-wrap; margin-top:12px; line-height:1.5; color:#333; }
-    .info-row { display:flex; gap:12px; flex-wrap:wrap; margin-top:8px; }
-    .chip { background:#f5f7fb; padding:6px 10px; border-radius:8px; color:#333; font-weight:600; }
-    .rating { display:inline-block; margin-left:8px; color:#ffb400; font-weight:700; }
-    .modal-backdrop { position:fixed; left:0; top:0; right:0; bottom:0; background:rgba(0,0,0,0.5); display:none; align-items:center; justify-content:center; z-index:1000; }
-    .modal { background:#fff; padding:18px; border-radius:10px; width:90%; max-width:480px; box-shadow:0 10px 30px rgba(0,0,0,0.2); }
-    .modal h3 { margin-top:0; }
-    .modal .form-row { margin-bottom:10px; }
-    .modal input, .modal select, .modal textarea { width:100%; padding:8px; border-radius:6px; border:1px solid #ddd; }
-    .modal-actions { display:flex; justify-content:flex-end; gap:8px; margin-top:12px; }
-  </style>
+.info-prof h1{
+  font-size: 2.1rem;
+  margin-bottom: 8px;
+}
+.chip{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(255,255,255,.7);
+  border: 1px solid rgba(235,200,103,.4);
+  border-radius: 10px;
+  font-weight: 600;
+}
+body.modo-escuro .chip{
+  background: rgba(32,32,32,.7);
+  border-color: rgba(88,190,110,.25);
+}
+
+.valor{
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #1e3a8a;
+}
+body.modo-escuro .valor{ color: #58be6e; }
+
+.hr{
+  height: 1px;
+  background: linear-gradient(90deg, rgba(18,53,122,.15), rgba(0,0,0,0), rgba(18,53,122,.15));
+  margin: 16px 0;
+}
+body.modo-escuro .hr{
+  background: linear-gradient(90deg, rgba(88,190,110,.25), rgba(0,0,0,0), rgba(88,190,110,.25));
+}
+
+.descricao-bloco {
+  background: rgba(255,255,255,0.75);
+  border-radius: 14px;
+  padding: 18px 22px;
+  margin-top: 20px;
+  border-left: 4px solid var(--dourado);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.07);
+}
+body.modo-escuro .descricao-bloco {
+  background: rgba(28,28,28,0.75);
+  border-left-color: #58be6e;
+}
+
+.btns{
+  display: flex; gap: 12px; flex-wrap: wrap;
+  margin-top: 20px;
+}
+.btn-contratar{
+  padding: 13px 22px;
+  border: none;
+  border-radius: 30px;
+  background: linear-gradient(135deg, #ffb347, #ffcc33);
+  color: #1b1b1b;
+  font-weight: 800;
+  box-shadow: 0 10px 22px rgba(255,190,50,.45);
+  text-decoration: none;
+}
+body.modo-escuro .btn-contratar{
+  background: linear-gradient(135deg, #46ac33, #305b25);
+  color: #0d0d0d;
+}
+.btn-sec{
+  background: rgba(255,255,255,.75);
+  border: 1px solid rgba(26,62,130,.18);
+  color: #12357a;
+  padding: 12px 18px;
+  border-radius: 28px;
+  text-decoration: none;
+  font-weight: 700;
+}
+body.modo-escuro .btn-sec{
+  background: rgba(36,36,36,.8);
+  border-color: rgba(88,190,110,.25);
+  color: #e5e5e5;
+}
+
+/* BOTÃO DO TEMA ESCURO */
+#tema-react {
+  position: absolute;
+  top: 18px;
+  right: 30px; 
+  z-index: 10;
+}
+
+#tema-react .botao-tema {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  background: transparent;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 19px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.35s ease;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
+}
+
+#tema-react .botao-tema:hover {
+  color: #ffffff;
+  border-color: #ffffff;
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.4);
+  transform: scale(1.05);
+}
+
+body.modo-escuro #tema-react .botao-tema {
+  border-color: #58be6e;
+  color: #58be6e;
+  box-shadow: 0 0 10px rgba(88, 190, 110, 0.3);
+}
+
+body.modo-escuro #tema-react .botao-tema:hover {
+  color: #ffffff;
+  border-color: #ffffff;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.45);
+  transform: scale(1.05);
+}
+
+
+
+</style>
 </head>
 <body>
-  <main class="container">
-    <div style="max-width:1100px;margin:24px auto;padding:0 16px;">
-      <a href="lista_professores.php" class="btn-voltar">← Voltar à lista</a>
-    </div>
 
-    <div class="prof-card" role="region" aria-label="Detalhes do professor">
-      <div class="prof-foto">
-        <img src="<?= htmlspecialchars($foto_path) ?>" alt="Foto de <?= htmlspecialchars($prof['nome']) ?>">
+<div id="header">
+  <div class="header-esquerda">
+      <a href="index.php">EzClass</a>
+      <img src="imagens/livroslogo3.png" alt="Icone do canto" width="6%" />
+  </div>
+  <div id="tema-react"></div>
+  <script type="module" src="react/dist/assets/index-CaPnliW6.js"></script>
+</div>
+
+<div class="page-bg">
+  <div class="voltar-area">
+    <a href="index.php" class="voltar-btn">← Voltar</a>
+  </div>
+
+  <div class="container-prof">
+    <div class="card-glass">
+      <div class="foto-prof-detalhes">
+        <img src="<?= $foto_path ?>" alt="Foto de <?= htmlspecialchars($prof['nome']) ?>">
       </div>
-
-      <div class="prof-info">
-        <h1 class="prof-nome"><?= htmlspecialchars($prof['nome']) ?></h1>
-        <div class="prof-meta">
-          <span class="chip"><?= $prof['especialidade'] ? htmlspecialchars($prof['especialidade']) : 'Sem especialidade informada' ?></span>
-          <span class="chip">Formação: <?= $prof['formacao'] ? htmlspecialchars(substr($prof['formacao'],0,80)) . (strlen($prof['formacao'])>80?'...':'') : 'Não informada' ?></span>
-          <span class="chip">Contato: <?= $prof['telefone'] ? htmlspecialchars($prof['telefone']) : '—' ?></span>
-          <span class="chip">E-mail: <?= $prof['email'] ? htmlspecialchars($prof['email']) : '—' ?></span>
-
-          <span class="rating">
-            <?= $media_av !== null ? "{$media_av} ★ ({$qtd_av})" : "Sem avaliações" ?>
-          </span>
+      <div class="info-prof">
+        <h1><?= htmlspecialchars($prof['nome']) ?></h1>
+        <div class="info-sub">
+          <span class="chip">Matéria: <strong><?= htmlspecialchars($prof['materia_nome'] ?? 'Não informada') ?></strong></span>
+          <span class="chip">E-mail: <strong><?= htmlspecialchars($prof['email']) ?></strong></span>
+          <span class="chip">Telefone: <strong><?= htmlspecialchars($prof['telefone'] ?? '—') ?></strong></span>
         </div>
-
-        <div style="margin-top:8px;">
-          <strong>Valor/hora:</strong>
-          <span class="valor">R$ <?= formato_moeda($prof['valor_hora']) ?></span>
-        </div>
-
-        <div class="descricao" aria-live="polite">
-          <h3>Sobre o professor</h3>
-          <?php if ($prof['formacao']): ?>
-            <div class="descricao"><?= nl2br(htmlspecialchars($prof['formacao'])) ?></div>
+        <div class="valor">R$ <?= formato_moeda($prof['valor_hora']) ?> / hora</div>
+        <div class="hr"></div>
+        <div class="descricao-bloco">
+          <h2>Sobre o professor</h2>
+          <?php if (!empty(trim($prof['formacao']))): ?>
+            <p><?= nl2br(htmlspecialchars($prof['formacao'])) ?></p>
           <?php else: ?>
-            <p class="descricao">O professor ainda não adicionou uma descrição completa.</p>
+            <p>💬 Este professor ainda não adicionou uma biografia completa.</p>
           <?php endif; ?>
         </div>
-
-        <div style="margin-top:16px;">
+        <div class="btns">
           <?php if (isset($_SESSION['id_aluno'])): ?>
-            <!-- Botão contrata apenas visível para alunos logados -->
-            <button class="btn-contratar" id="abrirModalContratar" data-professor-id="<?= $prof['id_professor'] ?>">Contratar Professor</button>
+            <a class="btn-contratar" href="resumo_contratacao.php?id_professor=<?= $prof['id_professor'] ?>">Contratar Professor</a>
           <?php else: ?>
-            <a href="login.php" class="btn-contratar" style="text-decoration:none;display:inline-block;">Faça login para contratar</a>
+            <a class="btn-sec" href="login.php">Faça login para contratar</a>
           <?php endif; ?>
+          <a class="btn-sec" href="professores.php">Ver outros professores</a>
         </div>
       </div>
     </div>
+  </div>
+</div>
 
-    <!-- modal de contratação -->
-    <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-hidden="true">
-      <div class="modal" role="document" aria-labelledby="modalTitle">
-        <h3 id="modalTitle">Contratar <?= htmlspecialchars($prof['nome']) ?></h3>
-
-        <!-- Formulário envia para contratar.php (o mesmo que expliquei antes) -->
-        <form id="formContratarModal" method="post" action="contratar.php">
-          <input type="hidden" name="id_professor" value="<?= $prof['id_professor'] ?>">
-
-          <div class="form-row">
-            <label>Escolha a data da aula</label>
-            <input type="date" name="data_aula" required />
-          </div>
-
-          <div class="form-row">
-            <label>Horário (HH:MM)</label>
-            <input type="time" name="horario" required />
-          </div>
-
-          <div class="form-row">
-            <label>Forma de pagamento</label>
-            <select name="metodo_pagamento" required>
-              <option value="pix">PIX</option>
-              <option value="cartão">Cartão</option>
-              <option value="boleto">Boleto</option>
-            </select>
-          </div>
-
-          <div class="modal-actions">
-            <button type="button" class="btn-voltar" id="fecharModal">Cancelar</button>
-            <button type="submit" class="btn-contratar">Confirmar Contratação</button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-  </main>
-
-  <script>
-    // ABRE E FECHA O MODAL
-    (function(){
-      const btn = document.getElementById('abrirModalContratar');
-      const modalBg = document.getElementById('modalBackdrop');
-      const fechar = document.getElementById('fecharModal');
-
-      if (btn) {
-        btn.addEventListener('click', function(){
-          modalBg.style.display = 'flex';
-          modalBg.setAttribute('aria-hidden','false');
-        });
-      }
-
-      if (fechar) {
-        fechar.addEventListener('click', function(){
-          modalBg.style.display = 'none';
-          modalBg.setAttribute('aria-hidden','true');
-        });
-      }
-
-
-      modalBg.addEventListener('click', function(e){
-        if (e.target === modalBg) {
-          modalBg.style.display = 'none';
-          modalBg.setAttribute('aria-hidden','true');
-        }
-      });
-
-    })();
-  </script>
-
-  <?php /* NÃO REMOVA: include footer se o seu projeto tiver um */ ?>
-  <?php /* exemplo: include 'footer.php'; */ ?>
 </body>
 </html>
